@@ -1,0 +1,38 @@
+﻿.detail {
+    width: 90%;
+    display: block;
+    margin: auto;
+    padding-top: 13vw;
+    padding-bottom: 5vw;
+}
+
+.header-bottom {
+    display: block !important;
+    color: red;
+    font-size: 23px;
+}
+
+.btn-detail button {
+    border: none;
+    background-color: red;
+    width: 30%;
+    color: white;
+    padding: 10px;
+}
+
+.nofyAddtoCart {
+    position: fixed;
+    top: 50%;
+    left: 43%;
+    z-index: 100;
+    padding: 20px;
+    background-color: rgb(0 0 0 / 40%);
+    color: white;
+    display: none;
+}
+
+.fa-check-circle {
+    font-size: 39px;
+    padding-left: 40%;
+    color: aliceblue;
+}

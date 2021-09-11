@@ -1,0 +1,137 @@
+﻿@model Dictionary<ClotherShop.Models.CartModel, ClotherShop.Models.ProductModel>
+@using ClotherShop.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+    MemberModel m = (MemberModel)@Session["Member"];
+}
+@{
+float tongtien = 0;
+    float sotien = 0;
+}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franco|Home Page</title>
+    <link rel="stylesheet" href="../Assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Assets/css/styledonhang.css" />
+</head>
+
+<body>
+    <div class="header">
+        <!--Header-top-->
+        @if (@Session["Member"] == null)
+        {
+            @Html.Partial("_Header")
+        }
+        else
+        {
+            @Html.Partial("_HeaderMember")
+        }
+        <!--End Header-top-->
+        <div class="header-bottom">
+            <span class="logo">
+                <a href="@Url.Action("Index", "HomeMember")">
+                    <img alt="Logo" src="~/Assets/img/logo.jpg" />
+                </a>
+                <span>||Thanh toán</span>
+            </span>
+        </div>
+    </div>
+    <div class="tablecart">
+        <div style="font-size:20px;padding-bottom:20px">
+            <div style="color:red;"><i class="fas fa-map-marker-alt"></i> Địa chỉ nhận hàng </div>
+            <div style="font-weight:bold">
+                <span>@m.Name</span>
+                <span>@m.Phone</span>
+                <span>@m.Address</span>
+            </div>
+        </div>
+        
+        <div class="nofyAddtoCart">
+
+            <div>Thanh toán thành công</div>
+
+        </div>
+        <div class="title_cart">
+            <div class="row styles">
+                <div class="col-sm-7 ">
+                    Sản phẩm
+                </div>
+                <div class="col-sm-2">
+                    Đơn giá
+                </div>
+                <div class="col-sm-1">
+                    Số lượng
+                </div>
+                <div class="col-sm-2">
+                    Thành tiền
+                </div>
+            </div>
+        </div>
+
+        @foreach (var item in Model)
+        {
+
+            <div class="row styles">
+                @{
+                    sotien = item.Value.Cost * item.Key.Quantity;
+                    tongtien = tongtien + sotien;
+                }
+                <div class="col-sm-7">
+                    <div class="row">
+                        <div class="col-sm-3 margincenter">
+                            @Html.DisplayFor(modelItem => item.Value.Name)
+                        </div>
+                        <div class="col-sm-9">
+                            <img class="imageSp" src="@item.Value.Image" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-2 margincenter">
+                    ₫@Html.DisplayFor(modelItem => item.Value.Cost).000
+                </div>
+                <div class="col-sm-1 margincenter">
+                    <div class="btn-number">
+                        @Html.DisplayFor(modelItem => item.Key.Quantity)
+                    </div>
+
+                </div>
+                <div class="col-sm-2 margincenter">
+
+                    ₫@Html.DisplayFor(modelItem => sotien).000
+                </div>
+
+            </div>
+
+        }
+        <div class="row styles">
+
+            <div class="col-sm-6 ">
+                Tổng tiền:@tongtien.000₫
+
+            </div>
+            <div class="col-sm-6">
+                <button class="btn-muahang" onclick="Payment()">Thanh toán</button>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $(".btn-muahang").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: 'Donhang/Thanhtoan',
+                success: function () {
+                    $('.nofyAddtoCart').show();
+                    setTimeout(function () {
+                        $('.nofyAddtoCart').fadeOut();
+                    }, 3000);
+                }
+            });
+        })
+    </script>
+</body>
+

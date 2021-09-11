@@ -1,0 +1,132 @@
+﻿@model ClotherShop.Models.ProductModel
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@{ 
+    int quantity = 0;
+}
+<head>
+
+    <link rel="stylesheet" href="~/Assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Assets/css/styleproduct.css"/>
+</head>
+
+<body>
+    <div class="header">
+        <!--Header-top-->
+        @if (@Session["Member"] == null)
+        {
+            @Html.Partial("_Header")
+        }
+        else
+        {
+            @Html.Partial("_HeaderMember")
+        }
+        <!--End Header-top-->
+        <div class="header-bottom">
+            <span class="logo">
+                <a href="@Url.Action("Index", "HomeMember")">
+                    <img alt="Logo" src="~/Assets/img/logo.jpg" />
+                </a>
+                <span>||Chi tiết sản phẩm</span>
+            </span>
+        </div>
+    </div>
+    <div class="nofyAddtoCart">
+        <div><i class="fas fa-check-circle"></i></div>
+        <div>Sản phẩm đã được thêm vào giỏ hàng</div>
+    </div>
+    <div class="detail">
+        <div class="row">
+            <div class="col-sm-5">
+                <img src="../../Assets/img/@Model.Image" style="width:50%" />
+            </div>
+            <div class="col-sm-7">
+                <h1>@Model.Name</h1>
+                <div style="margin-top: 20px; font-size: 20px; color: red;">
+                    Giá: @Model.Cost.000đ
+                </div>
+                <div style="margin-top: 10px">@Model.Des</div>
+                <div class="btn-number" style="margin-top: 5vw;">
+                    <input class="btn1" onclick="myfunction()" type='button' value='-' />
+                    <input id='quanlity' min='1' name='quantity' type='text'
+                           value=1 />
+                    <input class="btn2" onclick="myfunctionplus()" type='button' value='+' />
+                </div>
+                <div class="btn-detail">
+                    <button onclick="AddToCart(@Model.ID)">Thêm vào giỏ hàng</button>
+                    <button onclick="Muahang(@Model.ID)">Mua hàng</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function myfunction() {
+            var result = document.getElementById('quanlity');
+            var qty = result.value;
+            if (!isNaN(qty) && qty > 1) {
+                result.value--;
+            }
+        }
+        function myfunctionplus() {
+            var result = document.getElementById('quanlity');
+            result.value++;
+        }
+        function AddToCart(id) {
+            var result = document.getElementById('quanlity');
+            var quantity=parseInt(result.value);
+            $.ajax({
+                type: 'POST',
+                url: "/Product/AddToCart", //url path to the controller action
+                dataType: 'json',
+                cache: false,
+                data: { Id: id,quantity:quantity},
+                success: function (data) {
+
+                    //do whatever you need to do with 'data'
+                    $('.nofyAddtoCart').show();
+                    setTimeout(function () {
+                        $('.nofyAddtoCart').fadeOut();
+                    }, 3000);
+                   
+
+
+                },
+                error: function (msg) {
+
+                    alert("Thất bại");
+
+                }
+            });
+        }
+        function Muahang(id) {
+            var result = document.getElementById('quanlity');
+            var quantity = parseInt(result.value);
+            $.ajax({
+                type: 'POST',
+                url: "/Product/AddToCart", //url path to the controller action
+                dataType: 'json',
+                cache: false,
+                data: { Id: id, quantity: quantity },
+                success: function (data) {
+
+                    //do whatever you need to do with 'data'
+                   
+                   
+                    window.location.href = "@Url.Action("Index", "Cart")";
+
+                },
+                error: function (msg) {
+
+                    alert("Thất bại");
+
+                }
+            });
+        }
+    </script>
+</body>
+
+
+

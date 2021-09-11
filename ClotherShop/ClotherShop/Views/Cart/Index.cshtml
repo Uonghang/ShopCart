@@ -1,0 +1,343 @@
+﻿@model Dictionary<ClotherShop.Models.CartModel, ClotherShop.Models.ProductModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@{ 
+
+    int count = 0;
+    float tong = 0;
+    int dem = 0;//biến đếm số lượng mặt hàng
+    float tongtien = 0;
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franco|Home Page</title>
+    <link rel="stylesheet" href="../Assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Assets/css/stylecart.css" />
+    
+</head>
+<body>
+    <div class="cover"></div>
+    <div class="header">
+        <!--Header-top-->
+        @if (@Session["Member"] == null)
+        {
+            @Html.Partial("_Header")
+        }
+        else
+        {
+            @Html.Partial("_HeaderMember")
+        }
+        <!--End Header-top-->
+        <div class="header-bottom">
+            <span class="logo">
+                <a href="@Url.Action("Index", "HomeMember")">
+                    <img alt="Logo" src="~/Assets/img/logo.jpg" />
+                </a>
+                <span>||Giỏ hàng</span>
+            </span>
+        </div>
+    </div>
+    
+        
+   
+
+    <div class="tablecart">
+        <div class="nofyAddtoCart">
+
+            <div>Bạn chưa chọn sản phầm nào để mua</div>
+            <button class="btn-nofy">OK</button>
+        </div>
+        <div class="remove">
+
+            <div>Bạn có chắc chắn xóa sản phẩm</div>
+            <button class="btn-ok">OK</button>
+            <button class="btn-cancel">Cancel</button>
+        </div>
+        <div class="title_cart">
+            <div class="row styles">
+                <div class="col-sm-1">
+
+                </div>
+                <div class="col-sm-6 ">
+                    Sản phẩm
+                </div>
+                <div class="col-sm-1">
+                    Đơn giá
+                </div>
+                <div class="col-sm-2">
+                    Số lượng
+                </div>
+                <div class="col-sm-1">
+                    Số tiền
+                </div>
+                <div class="col-sm-1">
+                    Thao Tác
+                </div>
+            </div>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            dem = dem + 1;//đếm số lượng mặt hàng
+            <div>
+
+                @{
+                    string sp = "sp" + @item.Key.Id;//khởi tạo class cho mỗi sản phâm
+                    string stien = "sotien" + @item.Key.Id;//khởi tạo class cho tổng tiền mỗi sản phẩm
+                    float sotien = item.Value.Cost * item.Key.Quantity;//tính tổng tiền mỗi sản phẩm
+                    count = count + item.Key.Status;//tính trạng thái khi chọn sản phẩm
+                    string classes = "Sanpham" + @item.Key.Id + "";//khởi tạo class cho mỗi input check
+                    string quantity = "quantity" + @item.Key.Id;//khởi tạo class cho input soluong
+                    tongtien = tongtien + sotien;
+                }
+                <div class="row styles @sp">
+                    <div class="col-sm-1 margincenter">
+                        @if (item.Key.Status == 1)
+                                {
+                                    tong = tong + sotien;
+                            <input class="all" id="@classes" type="checkbox" onclick="hanlerChange(@item.Value.Cost,@classes,@item.Key.Id)" checked />
+                        }
+                        else
+                        {
+                            <input class="all" id="@classes" type="checkbox" onclick="hanlerChange(@item.Value.Cost,@classes,@item.Key.Id)" />
+                        }
+
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-3 margincenter">
+                                @Html.DisplayFor(modelItem => item.Value.Name)
+                            </div>
+                            <div class="col-sm-9">
+                                <img class="imageSp" src="/Assets/img/@item.Value.Image" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-1 margincenter">
+                        ₫@Html.DisplayFor(modelItem => item.Value.Cost).000
+                    </div>
+                    <div class="col-sm-2 margincenter">
+                        <div class="btn-number">
+                            <input class="btn1" onclick="myfunction(@item.Key.Id,@item.Value.Cost,@classes)" type='button' value='-' />
+                            <input id='@quantity' min='1' name='quantity' type='text'
+                                   value=@Html.DisplayFor(modelItem => item.Key.Quantity) />
+                            <input class="btn2" onclick="myfunctionplus(@item.Key.Id,@item.Value.Cost,@classes)" type='button' value='+' />
+                        </div>
+
+                    </div>
+                    <div class="col-sm-1 margincenter @stien ">
+
+                        ₫@Html.DisplayFor(modelItem => sotien).000
+                    </div>
+                    <div class="col-sm-1 margincenter">
+                        <span class="delete" onclick="RemoveCart(@item.Key.Id,@item.Value.Cost,@classes)">Xóa</span>
+
+
+                    </div>
+                </div>
+            </div>
+
+        }
+        @if (dem == 0)
+        {
+            <div>Không có mặt hàng nào trong giỏ</div>
+        }
+        <div class="row styles">
+            <div class="col-sm-6">
+                <input id="choiceall" type="checkbox" onclick="choiceAll()" />
+                <label>Tất cả</label>
+            </div>
+            <div class="col-sm-3 " style="display: flex">
+                Tổng tiền: <div class='total'>@tong</div>.000₫
+
+            </div>
+            <div class="col-sm-3">
+                <button class="btn-muahang" onclick="BuyItem()">Mua hàng</button>
+            </div>
+
+        </div>
+    </div>
+    <script>
+         function myfunction(id,cost,c) {
+             var result = document.getElementById('quantity' + id + '');
+             var qty = result.value;
+             if (!isNaN(qty)) {
+
+                if (qty == 1) {
+
+                    $('.remove').show();
+                    $('.btn-ok').click(function () {
+                        $('.remove').fadeOut();
+                        $.ajax({
+                            type: 'POST',
+
+                            url: "/Cart/RemoveCart",
+                            data: { id: id },
+                            success: function (data) {
+                                $('div').remove('.sp' + id + '');
+                                if (c.checked) {
+                                    var t = parseFloat($('.total').text());
+                                    console.log(t);
+                                    t = t - cost;
+                                    $('.total').html(t);
+                                }
+                                
+                            },
+                            error: function (msg) {
+
+                                alert("that bai");
+
+                            }
+                        });
+                    })
+                }
+                else {
+                    var q = result.value--;
+                    var count = result.value;
+                    if (c.checked) {
+                        $('.sotien' + id + '').html(cost * count + ".000đ");
+                        var t = parseFloat($('.total').text());
+                        console.log(t);
+                        t = t - cost;
+                    }
+                   
+                    $('.total').html(t);
+                    $.ajax({
+                        type: 'POST',
+                        data: { id: id },
+                        url: '/Cart/GiamQuantity',
+                    });
+                }
+            }
+
+
+        }
+
+        $('.btn-cancel').click(function () {
+            $('.remove').fadeOut();
+        })
+        function myfunctionplus(id,cost,c) {
+            var result = document.getElementById('quantity' + id + '');
+            var qty = result.value;
+            if (!isNaN(qty)) {
+                var q = result.value++;
+                var count = result.value;
+                $('.sotien' + id + '').html(cost * count + ".000đ");
+                if (c.checked) {
+                    var t = parseFloat($('.total').text());
+                    console.log(t);
+                    t = t + cost;
+                    $('.total').html(t);
+                }
+                
+                $.ajax({
+                    type: 'POST',
+                    data: { id: id },
+                    url:'/Cart/TangQuantity',
+                });
+            }
+
+            return false;
+        }
+
+        function hanlerChange(cost,classes,id) {
+            var result = document.getElementById('quantity'+id+'');
+            var res = parseFloat(result.value) * cost;
+            var t = parseFloat($('.total').text());
+            console.log(res);
+            if (classes.checked) {
+                
+                console.log(t);
+                t = t + res;
+                $('.total').html(t);
+
+
+            }
+            else {
+
+                console.log(t);
+                t = t - res;
+                $('.total').html(t);
+                $('#choiceall').prop('checked', false);
+            }
+            
+            console.log(res);
+            $.ajax({
+                type: 'POST',
+                data: { check: classes.checked,id:id },
+                url: '/Cart/StatusCart',
+                success: function (data) {
+
+                }
+            });
+            return true;
+        }
+        function choiceAll() {
+            var result = document.getElementById('choiceall');
+            if (result.checked) {
+                $('.all').prop('checked', true);
+                $('.total').html(@tongtien);
+            }
+            else {
+                $('.all').prop('checked', false);
+
+                 $('.total').html(0);
+            }
+            console.log(result.checked);
+            $.ajax({
+                type: 'POST',
+                data: { check: result.checked },
+                url: '/Cart/StatusAllCart',
+                success: function (data) {
+
+                }
+            });
+        }
+        function RemoveCart(id_cart, cost, classes) {
+            if (classes.checked) {
+                var result = document.getElementById('quantity' + id_cart + '');
+                var quantity = parseFloat(result.value);
+                var t = parseFloat($('.total').text());
+                t = t - cost * quantity;
+                $('.total').html(t);
+            }
+           
+            
+            $.ajax({
+                type: 'POST',
+
+                url: '/Cart/RemoveCart',
+                data: { id: id_cart },
+                success: function (data) {
+                    $('div').remove('.sp' + id_cart + '');
+                   
+                },
+                error: function (msg) {
+
+                    alert("that bai");
+
+                }
+            });
+        }
+        function BuyItem() {
+            var res = parseFloat($('.total').text());
+            if (res>0) {
+                window.location.href = '@Url.Action("Index","Donhang")';
+            }
+            else {
+                $('.nofyAddtoCart').show();
+            }
+        }
+        $('.btn-nofy').click(function () {
+            $('.nofyAddtoCart').fadeOut();
+        })
+    </script>
+</body>

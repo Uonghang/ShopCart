@@ -1,0 +1,78 @@
+﻿
+@using ClotherShop.Models;
+@{
+    MemberModel m = (MemberModel)Session["Member"];
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franco|Home Page</title>
+<style>
+    .toggle {
+        border: none;
+        background: transparent;
+        color: white;
+    }
+    .menu-toggle {
+        font-size: 14px;
+        display: none;
+        position: absolute;
+        margin-top: 16px;
+        background-color: white;
+        padding: 10px;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+    <div class="header-top">
+
+        <div class="top-left">
+            <span class="icon"><i class="fas fa-cog"></i></span>
+            <span class="content-left">Chào mừng bạn ghé thăm shop</span>
+        </div>
+        <div class="top-right">
+            <div class="install">
+                <span class="icon"><i class="far fa-bell"></i></span>
+                <span class="content-right">Thông báo</span>
+            </div>
+            <div class="login">
+                <span class="icon"><i class="far fa-user"></i></span>
+                <span class="dropdown">
+                    <button class="toggle">
+                        @m.Name
+                        <span><i class="fas fa-caret-down"></i></span>
+                    </button>
+                   
+                </span>
+                <div>
+                    <ul class="menu-toggle">
+                        <li><a href="#">@Html.ActionLink("Thông tin cá nhân", "Index", "InforUser")</a></li>
+                        <li><a href="#">Đơn mua</a></li>
+                        <li><a href="#">@Html.ActionLink("Logout", "Index", "Login")</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".toggle").click(function () {
+            $(".menu-toggle").toggle();
+        });
+
+        
+    </script>
+</body>
+
+
+
+
+
+
+
+

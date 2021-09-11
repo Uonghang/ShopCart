@@ -1,0 +1,351 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@model IEnumerable<ClotherShop.Models.ProductModel>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franco|Home Page</title>
+</head>
+
+<body>
+    <div class="cover"></div>
+    <div class="header">
+        <!--Header-top-->
+        @if (@Session["Member"] == null)
+        {
+            @Html.Partial("_Header")
+        }
+        else
+        {
+            @Html.Partial("_HeaderMember")
+        }
+        <!--End Header-top-->
+        <div class="header-bottom">
+            <div class="logo">
+                <a href="@Url.Action("Index", "Home")">
+                    <img alt="Logo" src="~/Assets/img/logo.jpg" />
+                </a>
+            </div>
+            <div class="menu">
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link" href="">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">WOMEN</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">MEM</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">ABOUT US</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">BLOG</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">COLLECTIONS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">CONTACT</a></li>
+                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-search"></i></a></li>
+                </ul>
+
+            </div>
+
+            <div class="bt-icon">
+
+                <span class="icon-menu">
+                    <i class="pe-7s-menu"></i>
+                </span>
+                <span>
+                    <i class="pe-7s-search"></i>
+                </span>
+                <span>
+                    <i class="pe-7s-like"></i>
+                </span>
+                <span>
+                    <a href="@Url.Action("Index", "Login")">
+                        <i class="pe-7s-cart"></i>
+                    </a>
+
+                </span>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--Bannner-->
+    <div class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="banner-left">
+                    <!--Banner-left-->
+                    <div class="banner-1">
+                        <div>
+                            <img class="img100" alt="banner1" src="../Assets/img/banner-1.jpg" />
+                        </div>
+                        <div class="content">
+                            <div class="titile">Two High-end Materials</div>
+                            <div class="btn-shop">Shop Now</div>
+                        </div>
+                    </div>
+                    <!-- End Banner-left-->
+                </div>
+                <!--Banner-right-->
+
+                <div class="banner-right">
+                    <!--Banner-right-top-->
+                    <div class="row flex">
+                        <div class="banner-2">
+                            <div class="line-image">
+                                <img class="img100" alt="banner1" src="../Assets/img/banner-2.jpg" />
+                            </div>
+                            <div class="content">
+                                <div class="name">SMALL THING</div>
+                                <div class="type">MAKE DIFFERENT</div>
+                            </div>
+                        </div>
+                        <div class="banner-3">
+                            <div class="line-image">
+                                <img class="img100" alt="banner1" src="../Assets/img/banner-3.jpg" />
+                            </div>
+                            <div class="content">
+                                <div class="name">FOLIO</div>
+                                <div class="type">BACKPACK</div>
+                                <div class="btn-shop">Shop Now</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End-Banner-right-top-->
+                    <!--Banner-right-bottom-->
+                    <!--End-Banner-right-bottom-->
+                </div>
+
+                <!--End Banner-right-->
+            </div>
+        </div>
+        <div class="menu-doc">
+            <ul>
+                <li><a href="">HOME</a></li>
+                <li><a href="">WOMEN</a></li>
+                <li><a href="">MEM</a></li>
+                <li><a href="">ABOUT US</a></li>
+                <li><a href="">BLOG</a></li>
+                <li><a href="">COLLECTIONS</a></li>
+                <li><a href="">CONTACT</a></li>
+
+            </ul>
+
+        </div>
+    </div>
+    <!--End Banner-->
+    <!--Listing-->
+    <div class="listing">
+        <div class="container">
+            <div class="listing-titile">
+                <div class="name">FRANCO</div>
+                <div class="des-item">FEATURED ITEMS</div>
+                <div>
+                    <hr>
+                </div>
+            </div>
+            <div class="listing-item">
+                <div class="item-top">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+
+                            <div class="product">
+                                <div class="item">
+                                    <img class="img100" src="/Assets/img/@item.Image" alt="">
+                                    <div class="add">
+                                        @Html.ActionLink("ADD TO CART", "Index", "Login")
+                                    </div>
+                                </div>
+                                <div class="des-item">
+
+                                    <div class="name">@item.Name</div>
+                                    <div class="rating">
+                                        <span><i class="fal fa-star"></i></span>
+                                        <span><i class="fal fa-star"></i></span>
+                                        <span><i class="fal fa-star"></i></span>
+                                        <span><i class="fal fa-star"></i></span>
+                                        <span><i class="fal fa-star"></i></span>
+                                    </div>
+                                    <div class="cost">
+                                        <span><del>$99.00</del></span>
+                                        <span class="fee">$@item.Cost</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--End Listing-->
+    <div class="news">
+        <div class="news-event">
+            <div class="container">
+                <div class="news-titile">
+                    <div class="name">LATEST</div>
+                    <div class="event">NEWS & EVENTS</div>
+                    <hr>
+                </div>
+                <div class="news-content ">
+                    <div class="carousel-item">
+                        <div class="row carousel">
+                           
+                            <div class="news-infor">
+                                <div class="card ">
+                                    <img class="img100 " src="../Assets/img/news-1.jpg " alt=" ">
+                                    <div class="date">
+                                        <div>
+                                            Jan 23
+                                        </div>
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="body-titile">
+                                            <div class="card-title ">In commodo dolor vitae</div>
+                                            <div class="card-text ">
+                                                <div>Aliquam tempor sagittis neque, vel aliquam risus consectetur vel. Aenean hendrerit, elit a lacinia suscipit, orci mauris.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-bottom">
+                                            <span><i class="fal fa-comment"></i> 12</span>
+                                            <span><i class="fal fa-heart"></i> 6</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="news-infor">
+                                <div class="card ">
+                                    <img class="img100 " src="../Assets/img/news-2.jpg " alt=" ">
+                                    <div class="date">
+                                        <div>
+                                            Jan 23
+                                        </div>
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="body-titile">
+                                            <div class="card-title ">Vivamus non dignissim elit</div>
+                                            <div class="card-text ">
+                                                <div>Aliquam tempor sagittis neque, vel aliquam risus consectetur vel. Aenean hendrerit, elit a lacinia suscipit, orci mauris.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-bottom">
+                                            <span><i class="fal fa-comment"></i> 12</span>
+                                            <span><i class="fal fa-heart"></i> 6</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="news-infor">
+                                <div class="card ">
+                                    <img class="img100 " src="../Assets/img/news-3.jpg " alt=" ">
+                                    <div class="date">
+                                        <div>
+                                            Jan 23
+                                        </div>
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="body-titile">
+                                            <div class="card-title ">Ut lacinia erat ut diam volutpat</div>
+                                            <div class="card-text ">
+                                                <div>Aliquam tempor sagittis neque, vel aliquam risus consectetur vel. Aenean hendrerit, elit a lacinia suscipit, orci mauris.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-bottom">
+                                            <span><i class="fal fa-comment"></i> 12</span>
+                                            <span><i class="fal fa-heart"></i> 6</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="news-infor">
+                                <div class="card ">
+                                    <img class="img100 " src="../Assets/img/news-1.jpg " alt=" ">
+                                    <div class="date">
+                                        <div>
+                                            Jan 23
+                                        </div>
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="body-titile">
+                                            <div class="card-title ">In commodo dolor vitae</div>
+                                            <div class="card-text ">
+                                                <div>Aliquam tempor sagittis neque, vel aliquam risus consectetur vel. Aenean hendrerit, elit a lacinia suscipit, orci mauris.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-bottom">
+                                            <span><i class="fal fa-comment"></i> 12</span>
+                                            <span><i class="fal fa-heart"></i> 6</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="news-infor">
+                                <div class="card ">
+                                    <img class="img100 " src="../Assets/img/news-2.jpg " alt=" ">
+                                    <div class="date">
+                                        <div>
+                                            Jan 23
+                                        </div>
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="body-titile">
+                                            <div class="card-title ">Vivamus non dignissim elit</div>
+                                            <div class="card-text ">
+                                                <div>Aliquam tempor sagittis neque, vel aliquam risus consectetur vel. Aenean hendrerit, elit a lacinia suscipit, orci mauris.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-bottom">
+                                            <span><i class="fal fa-comment"></i> 12</span>
+                                            <span><i class="fal fa-heart"></i> 6</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="news-infor">
+                                <div class="card ">
+                                    <img class="img100 " src="../Assets/img/news-3.jpg " alt=" ">
+                                    <div class="date">
+                                        <div>
+                                            Jan 23
+                                        </div>
+                                    </div>
+                                    <div class="card-body ">
+                                        <div class="body-titile">
+                                            <div class="card-title ">Ut lacinia erat ut diam volutpat</div>
+                                            <div class="card-text ">
+                                                <div>Aliquam tempor sagittis neque, vel aliquam risus consectetur vel. Aenean hendrerit, elit a lacinia suscipit, orci mauris.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-bottom">
+                                            <span><i class="fal fa-comment"></i> 12</span>
+                                            <span><i class="fal fa-heart"></i> 6</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+
+

@@ -1,0 +1,42 @@
+﻿@model int
+<div class="header-bottom">
+    <div class="logo">
+        <a href="@Url.Action("Index", "HomeMember")">
+            <img alt="Logo" src="~/Assets/img/logo.jpg" />
+        </a>
+    </div>
+    <div class="menu">
+        <ul class="nav">
+            <li class="nav-item"><a class="nav-link" href="">HOME</a></li>
+            <li class="nav-item"><a class="nav-link" href="">WOMEN</a></li>
+            <li class="nav-item"><a class="nav-link" href="">MEM</a></li>
+            <li class="nav-item"><a class="nav-link" href="">ABOUT US</a></li>
+            <li class="nav-item"><a class="nav-link" href="">BLOG</a></li>
+            <li class="nav-item"><a class="nav-link" href="">COLLECTIONS</a></li>
+            <li class="nav-item"><a class="nav-link" href="">CONTACT</a></li>
+            <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-search"></i></a></li>
+        </ul>
+
+    </div>
+
+    <div class="bt-icon">
+
+        <span class="icon-menu">
+            <i class="pe-7s-menu"></i>
+        </span>
+        <span>
+            <i class="pe-7s-search"></i>
+        </span>
+        <span>
+            <i class="pe-7s-like"></i>
+        </span>
+        <span class="cart" data=@Model>
+            <a href="@Url.Action("Index", "Cart")">
+                <i class="pe-7s-cart"></i>
+            </a>
+        </span>
+
+
+    </div>
+
+</div>
